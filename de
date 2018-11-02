@@ -1,0 +1,50 @@
+import math
+import numpy
+
+class Equation(): #y' = sin(x) + y
+    
+    def get_derivative(self, x, y):
+        
+        #return math.sin(numpy.deg2rad(x)) + y
+        print(x, math.sin(x))
+        return math.sin(x) + y
+    
+    def rad2deg(self, x): #converting radians to degrees
+        
+        return (2.0 * math.pi * x/360.0)
+        
+    def __init__(self, x0, y0, X, n):
+        self.x0 = x0
+        self.y0 = y0
+        self.X = X
+        self.n = n
+        
+        h = (X - x0)/n
+        self.h = h
+        
+        print(x0, X, h)
+        
+        self.x = numpy.arange(x0, X + 0.000001, h)
+        print(self.x)
+        
+class Numeric_methods():
+    
+    def euler_method(self, f):
+    
+        y = [0] * len(f.x)
+        y[0] = f.y0
+    
+        for i in range(1, len(f.x)):
+        
+            print('i = ', i, '\n')
+            print(y[i - 1], f.h, f.get_derivative(f.x[i - 1], y[i - 1]), f.h * f.get_derivative(f.x[i - 1], y[i - 1]), '\n')
+            
+            y[i] = y[i - 1] + f.h * f.get_derivative(f.x[i - 1], y[i - 1])
+            
+        return y
+
+#print('To plot graph for funtion enter x0, y0, X, N')
+
+e = Equation(0.0, 1.0, 5.0, 100000.0)
+res = (Numeric_methods().euler_method(e))
+print(res[100000])
