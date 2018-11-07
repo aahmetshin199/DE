@@ -1,7 +1,7 @@
 import math
 import numpy
-#import plotly
-#import plotly.graph_objs
+import plotly
+import plotly.graph_objs
  
 class Equation(): #y' = sin(x) + y
  
@@ -123,29 +123,27 @@ class Numeric_methods():
         runge_kutta_total = [total_x, runge_kutta_total_y]        
  
         return [euler_total, euler_improved_total, runge_kutta_total]
- 
-#class Plotting():
- 
-#    def plot(self, n, f, names, file):
- 
-#       d = [0] * n
- 
-#       for i in range(n):
-#           d[i] = plotly.graph_objs.Scatter(x = f[i][0], y = f[i][1], name = names[i], mode = "lines")
- 
-#       plotly.offline.plot(d, filename = file)
+
+class Plotting():
+    def plot(self, n, f, names, file):
+        print("hello", n, len(f))
+        
+        d = [0] * len(f)
+        for i in range(len(f)):
+            d[i] = plotly.graph_objs.Scatter(x = f[i][0], y = f[i][1], name = names[i], mode = "lines+markers")
+        plotly.offline.plot(d, filename = file)
  
  
 x0 = 0.0
 y0 = 1.0
-X = 1.0
-N = 5
+X = 2.4
+N = 10
  
 print("Please, print x0, y0, X, N in the console if want to change it and print 'no' otherwise. \n(print four values divided only by spaces, example: '1 2 3 4'")
 s = input()
  
 if s != "no":
-	x0, y0, X, N = list(map(float, s.split()))
+    x0, y0, X, N = list(map(float, s.split()))
  
 e = Equation(x0, y0, X, N)
  
@@ -153,20 +151,20 @@ euler_result = Numeric_methods().euler_method(e)
 euler_improved_result = Numeric_methods().euler_method_improved(e)
 runge_kutta_result = Numeric_methods().runge_kutta_method(e)
  
-print(euler_result[1])
-print(euler_improved_result[1])
-print(runge_kutta_result[1])
-print(e.exact_solution()[1])
-#plot(N + 1, [euler_result, euler_improved_result, runge_kutta_result], ["Euler Method", "Improved Euler Method", "Runge Kutta Method"], "result.html")
+#print(euler_result[1])
+#print(euler_improved_result[1])
+#print(runge_kutta_result[1])
+#print(e.exact_solution()[1])
+Plotting().plot(N + 1, [euler_result, euler_improved_result, runge_kutta_result, e.exact_solution()], ["Euler Method", "Improved Euler Method", "Runge Kutta Method", "Exact Solution"], "result.html")
  
 euler_error = e.local_errors(euler_result)
 euler_improved_error = e.local_errors(euler_improved_result)
 runge_kutta_error = e.local_errors(runge_kutta_result)
  
-print(euler_error[1])
-print(euler_improved_error[1])
-print(runge_kutta_error[1])
-#plot(N + 1, [euler_error, euler_improved_error, runge_kutta_error], ["Euler Error", "Improved Euler Error", "Runge Kutta Error"], "local_errors.html")
+#print(euler_error[1])
+#print(euler_improved_error[1])
+#print(runge_kutta_error[1])
+Plotting().plot(N + 1, [euler_error, euler_improved_error, runge_kutta_error], ["Euler Error", "Improved Euler Error", "Runge Kutta Error"], "local_errors.html")
  
 print("Please, write starting and finishing values of the numbers of grid cells to provide the graph of total errors for each method for a given range")
  
@@ -174,8 +172,5 @@ start_n, end_n = list(map(int, input().split()))
 print(start_n, end_n)
  
 total = Numeric_methods().total_approximation_errors(start_n, end_n, x0, y0, X)
- 
-print(total[0])
-print(total[1])
-print(total[2])
-#plot(end_n - start_n + 1, total, ["Euler Total Error", "Improved Euler Total Error", "Runge Kutta Total Error"], "total_errors.html")
+
+Plotting().plot(end_n - start_n + 1, total, ["Euler Total Error", "Improved Euler Total Error", "Runge Kutta Total Error"], "total_errors.html")
