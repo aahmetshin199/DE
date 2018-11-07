@@ -126,7 +126,6 @@ class Numeric_methods():
 
 class Plotting():
     def plot(self, n, f, names, file):
-        print("hello", n, len(f))
         
         d = [0] * len(f)
         for i in range(len(f)):
@@ -169,7 +168,6 @@ Plotting().plot(N + 1, [euler_error, euler_improved_error, runge_kutta_error], [
 print("Please, write starting and finishing values of the numbers of grid cells to provide the graph of total errors for each method for a given range")
  
 start_n, end_n = list(map(int, input().split()))
-print(start_n, end_n)
  
 total = Numeric_methods().total_approximation_errors(start_n, end_n, x0, y0, X)
 
