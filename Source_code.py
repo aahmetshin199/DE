@@ -30,28 +30,31 @@ class Equation(): #y' = sin(x) + y
         ex = self.exact_solution()
  
         for i in range(len(self.x)):
-            y_error[i] = ex[1][i] - y[i]
- 
+            y_error[i] = abs(ex[1][i] - y[i])
+            
         return [self.x, y_error]
  
     def max_error(self, ff):  #maximum error of function ff
  
         l = self.local_errors(ff)
-        mx = 0.0
+        mx = 0
         a = l[1]
  
-        for i in range(len(a)):
-        	mx = max(mx, abs(a[i]))
+        return max(l[1])
+
+        #for i in range(len(a))
+        #	mx = max(mx, abs(a[i]))
  
-        return mx
+        #return mx
  
     def exact_solution(self):
  
+        c = (self.y0 + (math.sin(self.x0) + math.cos(self.x0)))/(math.e**self.x0)
         y = [0] * len(self.x)
  
         for i in range(len(self.x)):
-            y[i] = 3.0/2.0 * (math.e**self.x[i]) - (math.sin(self.x[i]) + math.cos(self.x[i]))/2.0
- 
+            y[i] = c * (math.e**self.x[i]) - (math.sin(self.x[i]) + math.cos(self.x[i]))/2.0
+
         return [self.x, y]
  
  
@@ -143,7 +146,7 @@ s = input()
  
 if s != "no":
     x0, y0, X, N = list(map(float, s.split()))
- 
+
 e = Equation(x0, y0, X, N)
  
 euler_result = Numeric_methods().euler_method(e)
@@ -159,7 +162,7 @@ Plotting().plot(N + 1, [euler_result, euler_improved_result, runge_kutta_result,
 euler_error = e.local_errors(euler_result)
 euler_improved_error = e.local_errors(euler_improved_result)
 runge_kutta_error = e.local_errors(runge_kutta_result)
- 
+
 #print(euler_error[1])
 #print(euler_improved_error[1])
 #print(runge_kutta_error[1])
